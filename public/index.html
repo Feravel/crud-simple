@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+    <body>
+        <h1>CRUD Test</h1>
+
+        <input id="title" placeholder="Title">
+        <input id="description" placeholder="Description">
+        <button onclick="addTask()">Add</button>
+
+        <!--Elements will get started here-->
+        <ul id="tasks"></ul>
+
+        <script>
+            async function loadTasks() {
+                const res = await fetch("/tasks");
+                const tasks = await res.json();
+                const list = document.getElementById("tasks");
+                list.innerHTML = "";
+                tasks.forEach(t => {
+                    const li = document.createElement("li");
+                    //Title: Description - Status
+                    li.innerHTML = `
+                        ${t.title}: ${t.description} - ${t.completed ? "Done" : "Pending"} 
+                        <button onclick="deleteTask(${t.id})">X</button>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+
+            async function addTask() {
+                const title = document.getElementById("title").value;
+                const description = document.getElementById("description").value;
+                await fetch("/tasks", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title, description })
+                });
+                loadTasks();
+            }
+
+            async function deleteTask(id) {
+                await fetch(`/tasks/${id}`, { method: "DELETE" });
+                loadTasks();
+            }
+
+            loadTasks();
+        </script>
+    </body>
+</html>
