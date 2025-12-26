@@ -18,7 +18,7 @@ app.use(express.static("public"));
 //-----------------------------------------------------------
 //Endpoint 1 - Crear tarea POST
 app.post("/tasks", (req, res) => { 
-  const { title, description } = req.body;
+    const { title, description } = req.body;
 
     db.run(
         "INSERT INTO tasks (title, description, completed) VALUES (?, ?, 0)",
@@ -38,12 +38,24 @@ app.get("/tasks", (req, res) => {
 //-----------------------------------------------------------
 //Endpoint 3 - Actualizar tarea PUT
 app.put("/tasks/:id", (req, res) => {
+    const { description } = req.body;
+    db.run(
+        "UPDATE tasks SET description = ? WHERE id = ?",
+        [description, req.params.id],
+        () => {
+            res.sendStatus(200);
+        }
+    );
+});
+//-----------------------------------------------------------
+//Endpoint 3.5 - Actualiza el ESTADO
+app.put("/tasks/:id/complete", (req, res) => {
     const { completed } = req.body;
-
     db.run(
         "UPDATE tasks SET completed = ? WHERE id = ?",
         [completed, req.params.id],
-        () => {
+        function (err) {
+            if (err) return res.sendStatus(500);
             res.sendStatus(200);
         }
     );
