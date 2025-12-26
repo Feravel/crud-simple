@@ -27,7 +27,8 @@
                 const res = await fetch("/tasks");
                 const tasks = await res.json();
                 const list = document.getElementById("tasks");
-                list.innerHTML = `
+                //Header de la tabla
+                list.innerHTML = ` 
                     <table class="text-white table-auto rounded mb-2 p-2 w-full">
                         <tr class="grid grid-cols-4 text-xl pb-2 ">
                             <th class="bg-red-400 ml-2 mr-2 pb-3 pt-3 rounded">Title</th>
@@ -37,9 +38,10 @@
                         </tr>
                     </table>
                 `;
+                //Elementos de la tabla
                 tasks.forEach(t => {
                     const li = document.createElement("li");
-                    //Title: Description - Status
+                    //Titulo - descripcion - estado - botones
                     li.innerHTML = `
                         <table class="align-middle table-auto text-red-700  mb-2 p-2 w-full">
                             <tr class="grid grid-cols-4 ">
@@ -78,8 +80,8 @@
             //ACTUALIZA LINEA DE BASE DE DATOS
             async function updateTask(id, description) { 
                 const newDescription = prompt("Enter new description:", description);
-                if (!newDescription || newDescription.trim() === "") 
-                    return; //TRIM SACA LOS ESPACIOS
+                if (!newDescription || newDescription.trim() === "") //Si es null o vacío
+                    return; //TRIM SACA LOS ESPACIOS EXTRA
                 console.log("TIENE ALGO ESCRITO");
                 await fetch(`/tasks/${id}`, {
                     method: "PUT",
