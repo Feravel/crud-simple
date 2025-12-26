@@ -13,7 +13,9 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
     "express": "^5.2.1",
-    "sqlite3": "^5.1.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
     "tailwindcss": "^4.1.18"
   }
 }

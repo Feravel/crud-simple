@@ -1,6 +1,4 @@
-@import "tailwindcss";
-
-body {
-  font-family: Arial;
-  padding: 20px;
+/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
+.underline {
+  text-decoration-line: underline;
 }
